@@ -1,15 +1,20 @@
+# Linear regressio example
 rm(list=ls())
-k <- 0.7
+# Theoretical model: y=k*x+m
+b <- 0.7
+a <- 1.3
+sd <- 2
 n <- 50
 x <- sample(40:70, n, rep=T)
-y <- k*x + rnorm(n, sd=5)
-plot(x, y, xlim=c(20,90))
-abline(a=0, b=k, col="green")
+y <- b*x + a + rnorm(n, sd=3)
+plot(x, y, xlim=c(0,90), ylim=c(0,60))
+abline(a=a, b=b, col="green")
 
-model <- lm(y~x)
+# Linear regression
+(model <- lm(y~x))
 abline(model, col="red")
 
-newx <- seq(20,90)
+newx <- seq(0,90)
 prd <- predict(model,
                newdata=data.frame(x=newx),
                interval=c("confidence"), 
@@ -18,3 +23,4 @@ prd <- predict(model,
 prd <- data.frame(prd)
 lines(newx, prd$lwr, col="orange", lty=2)
 lines(newx, prd$upr, col="orange", lty=2)
+
